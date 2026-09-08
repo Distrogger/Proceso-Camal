@@ -21,6 +21,7 @@ import os
 import re
 import shutil
 from datetime import datetime
+import argparse
 
 import numpy as np
 import pandas as pd
@@ -195,5 +196,54 @@ def empaquetar(carpeta="docs", nombre="tablero-camal"):
     return archivo
 
 
+# -------------------- Utilidad para pruebas locales -------------------------
+
+def crear_dataframe_de_prueba():
+    """Construye un DataFrame de ejemplo con las columnas mínimas esperadas.
+
+    Sirve para comprobar que exportar_tablero funciona sin depender del
+    pipeline completo. No pretende ser una emulación completa de los datos
+    reales, solo un punto de partida para pruebas locales.
+    """
+    df = pd.DataFrame({
+        "FECHA DE PROCESO": pd.to_datetime(["2025-01-06", "2025-01-07", "2025-01-13", "2025-01-14"]),
+        "SEMANA": [1, 1, 2, 2],
+        "DIA SEMANA": ["Lunes", "Martes", "Lunes", "Martes"],
+        "DESCRIPCION ARTICULO": ["Art A", "Art B", "Art A", "Art C"],
+        "LINEA PRODUCCION": ["L1", "L1", "L2", "L2"],
+        "CANTIDAD DE PERSONAL": [10, 11, 9, 12],
+        "CANTIDAD DE CERDOS": [400, 420, 380, 410],
+        "CERDOS BUENOS": [395, 415, 375, 405],
+        "HORAS PROGRAMADAS": [8, 8, 8, 8],
+        "HORAS PRODUCTIVAS": [7.5, 7.8, 7.6, 7.9],
+        "HORAS DE PARAS PLANIFICADAS": [0.2, 0.1, 0.0, 0.3],
+        "HORAS DE PARAS NO PLANIFICADAS": [0.3, 0.1, 0.2, 0.0],
+        "UNIDADES CON DEFECTOS PROCESO": [5, 5, 4, 5],
+        "UNIDADES CON DEFECTOS GRANJA": [0, 0, 0, 0],
+        "KILOGRAMOS EN PIE": [1000, 1050, 980, 1020],
+        "KILOGRAMOS PROCESADOS": [980, 1020, 960, 1005],
+        "ESTANDAR APLICADO": [40, 40, 40, 40],
+        "VELOCIDAD NETA": [53.3, 53.8, 50.0, 51.9],
+        "VELOCIDAD BRUTA": [50.0, 52.5, 48.0, 50.0],
+        "MOTIVOS DE PARADAS": ["motor; limpieza", "", "falta de repuesto", ""],
+        "DEFECTOS PROCESO": ["corte - sangrado", "", "sangrado", ""],
+    })
+    return df
+
+
 if __name__ == "__main__":
-    print(__doc__)
+    parser = argparse.ArgumentParser(description="Exportar datos para el tablero web.")
+    parser.add_argument("--test", action="store_true",
+                        help="Genera un DataFrame de prueba y escribe docs/datos.js")
+    parser.add_argument("--dest", default="docs", help="Carpeta destino (por defecto: docs)")
+    parser.add_argument("--pack", action="store_true", help="Comprime la carpeta destino en un zip")
+    args = parser.parse_args()
+
+    if args.test:
+        df = crear_dataframe_de_prueba()
+        ruta = exportar_tablero(df, destino=args.dest)
+        if args.pack:
+            empaquetar(args.dest)
+        print("Escrito:", ruta)
+    else:
+        print(__doc__)
