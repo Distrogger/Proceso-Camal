@@ -1,0 +1,39 @@
+name: Generar Datos JS
+
+on:
+  push:
+    paths:
+      - 'docs/PROCESO CAMAL NUEVO FORMATO.xlsx'
+      - 'exportar-web.py'
+  workflow_dispatch:
+
+jobs:
+  actualizar-datos:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Instalar dependencias
+        run: |
+          pip install pandas numpy openpyxl
+
+      - name: Ejecutar script y leer Excel
+        run: |
+          python exportar-web.py --excel "docs/PROCESO CAMAL NUEVO FORMATO.xlsx"
+
+      - name: Guardar y subir datos.js al repositorio
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add docs/datos.js
+          git commit -m "Dashboard actualizado: datos.js autogenerado desde Excel" || echo "No hay cambios para commitear"
+          git push
