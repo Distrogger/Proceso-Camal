@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero de Faenamiento - Línea Primaria</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Tablero de Faenamiento</h1>
+            <p class="subtitle">Línea Primaria de Proceso - Camal Plata</p>
+            <p class="generado">Generado: <span id="fecha-generacion">-</span></p>
+        </header>
+
+        <section class="filtros">
+            <div class="filtro-grupo">
+                <label for="fecha-desde">Desde:</label>
+                <input type="date" id="fecha-desde">
+            </div>
+            <div class="filtro-grupo">
+                <label for="fecha-hasta">Hasta:</label>
+                <input type="date" id="fecha-hasta">
+            </div>
+            <div class="filtro-grupo">
+                <label for="linea">Línea:</label>
+                <select id="linea">
+                    <option value="">Todas</option>
+                </select>
+            </div>
+            <button id="limpiar-filtros">Limpiar Filtros</button>
+        </section>
+
+        <section class="metricas">
+            <div class="metrica-card">
+                <div class="metrica-valor" id="total-turnos">0</div>
+                <div class="metrica-label">Turnos</div>
+            </div>
+            <div class="metrica-card">
+                <div class="metrica-valor" id="total-cerdos">0</div>
+                <div class="metrica-label">Cerdos Procesados</div>
+            </div>
+            <div class="metrica-card">
+                <div class="metrica-valor" id="promedio-velocidad">0.0</div>
+                <div class="metrica-label">Velocidad Promedio</div>
+            </div>
+            <div class="metrica-card">
+                <div class="metrica-valor" id="tasa-buenos">0%</div>
+                <div class="metrica-label">Tasa Cerdos Buenos</div>
+            </div>
+        </section>
+
+        <section class="tabla-container">
+            <h2>Detalle de Turnos</h2>
+            <table id="tabla-turnos">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Línea</th>
+                        <th>Personal</th>
+                        <th>Cerdos</th>
+                        <th>Buenos %</th>
+                        <th>Horas Prod.</th>
+                        <th>Velocidad Neta</th>
+                        <th>Defectos</th>
+                        <th>Motivos de Paradas</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-turnos">
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script src="datos.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
