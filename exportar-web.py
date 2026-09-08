@@ -13,6 +13,10 @@ Uso tipico en Colab:
     datos = procesar("produccion.xlsx")
     exportar_tablero(datos, destino="docs")
     empaquetar("docs")
+
+Este script ahora acepta --excel <ruta> para leer directamente un archivo
+Excel (requiere pandas + openpyxl). Mantiene --test para generar datos de
+prueba.
 """
 
 import json
@@ -237,10 +241,22 @@ if __name__ == "__main__":
                         help="Genera un DataFrame de prueba y escribe docs/datos.js")
     parser.add_argument("--dest", default="docs", help="Carpeta destino (por defecto: docs)")
     parser.add_argument("--pack", action="store_true", help="Comprime la carpeta destino en un zip")
+    parser.add_argument("--excel", default=None, help="Ruta a un archivo Excel para generar datos.js")
     args = parser.parse_args()
 
     if args.test:
         df = crear_dataframe_de_prueba()
+        ruta = exportar_tablero(df, destino=args.dest)
+        if args.pack:
+            empaquetar(args.dest)
+        print("Escrito:", ruta)
+    elif args.excel:
+        # Leer el Excel con pandas y exportar
+        print(f"Leyendo Excel: {args.excel}")
+        # Intentar inferir engine si es necesario; openpyxl suele funcionar
+        df = pd.read_excel(args.excel, engine="openpyxl")
+        # Normalizar nombres de columna: muchas hojas vienen en mayusculas/minusculas
+        df.columns = [c.strip().upper() if isinstance(c, str) else c for c in df.columns]
         ruta = exportar_tablero(df, destino=args.dest)
         if args.pack:
             empaquetar(args.dest)
