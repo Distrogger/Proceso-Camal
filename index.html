@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tablero de línea primaria</title>
+  <link rel="stylesheet" href="estilos.css">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+<header>
+  <h1>Tablero de desempeño de línea primaria</h1>
+  <p id="subtitulo">Cargando datos del periodo</p>
+</header>
+
+<main>
+
+  <!-- ------------------------------------------------------- Filtros -->
+  <section class="panel">
+    <div class="rejilla-filtros">
+
+      <div class="filtro">
+        <label for="fechaInicio">Rango de fechas</label>
+        <div class="par-fechas">
+          <input type="date" id="fechaInicio">
+          <input type="date" id="fechaFin">
+        </div>
+      </div>
+
+      <div class="filtro">
+        <label for="personalMinimo">Dotación mínima</label>
+        <div class="deslizador">
+          <input type="range" id="personalMinimo">
+          <span class="valor" id="etiquetaPersonalMinimo"></span>
+        </div>
+      </div>
+
+      <div class="filtro">
+        <label for="personalMaximo">Dotación máxima</label>
+        <div class="deslizador">
+          <input type="range" id="personalMaximo">
+          <span class="valor" id="etiquetaPersonalMaximo"></span>
+        </div>
+      </div>
+
+      <div class="filtro">
+        <label for="estandar">Estándar de referencia</label>
+        <div class="deslizador">
+          <input type="range" id="estandar" min="10" max="80" step="1">
+          <span class="valor" id="etiquetaEstandar"></span>
+        </div>
+      </div>
+
+      <div class="filtro">
+        <label for="linea">Línea de producción</label>
+        <select id="linea"></select>
+      </div>
+
+      <div class="filtro" style="grid-column: 1 / -1;">
+        <label>Artículos incluidos</label>
+        <div class="fichas" id="fichasArticulos"></div>
+      </div>
+
+    </div>
+
+    <div class="acciones">
+      <button id="reiniciar">Reiniciar filtros</button>
+      <span class="conteo" id="conteo"></span>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------- Indicadores -->
+  <section class="rejilla-kpis" id="rejillaKpis"></section>
+
+  <!-- ------------------------------------------------------- Gráficos -->
+  <section class="rejilla-graficos">
+
+    <div class="marco ancho">
+      <h2>Cascada de pérdidas contra el estándar</h2>
+      <p class="sub">Del potencial teórico a la producción buena, en cerdos</p>
+      <div class="grafico alto" id="graficoCascada"></div>
+    </div>
+
+    <div class="marco ancho">
+      <h2>Carta de control de la velocidad neta</h2>
+      <p class="sub">Los puntos en rojo son causa especial y merecen análisis de raíz</p>
+      <div class="grafico" id="graficoControl"></div>
+    </div>
+
+    <div class="marco">
+      <h2>Motivos de parada por horas perdidas</h2>
+      <p class="sub">Horas asignadas proporcionalmente entre los motivos del turno</p>
+      <div class="grafico" id="graficoPareto"></div>
+    </div>
+
+    <div class="marco">
+      <h2>Velocidad neta según la dotación</h2>
+      <p class="sub">Cada caja muestra la distribución de turnos con ese personal</p>
+      <div class="grafico" id="graficoDotacion"></div>
+    </div>
+
+    <div class="marco">
+      <h2>Defectos de proceso frente a la velocidad</h2>
+      <p class="sub">Cada punto es un turno; la línea gris es la tendencia por tramos</p>
+      <div class="grafico" id="graficoDefectos"></div>
+    </div>
+
+    <div class="marco">
+      <h2>Velocidad neta media por semana y día</h2>
+      <p class="sub">Rojo indica turnos por debajo del estándar</p>
+      <div class="grafico" id="graficoMapaCalor"></div>
+    </div>
+
+    <div class="marco ancho">
+      <h2>Evolución semanal de la velocidad y la dotación</h2>
+      <p class="sub">La brecha entre velocidad neta y bruta es tiempo de parada</p>
+      <div class="grafico alto" id="graficoTendencia"></div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer id="pie"></footer>
+
+<script src="datos.js"></script>
+<script src="tablero.js"></script>
+
+</body>
+</html>

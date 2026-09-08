@@ -1,0 +1,290 @@
+/* Estilos del tablero de linea primaria.
+   Paleta corporativa apagada, un unico acento fuerte para riesgo. */
+
+:root {
+  --base: #4c6a82;
+  --medio: #88a0b3;
+  --claro: #c3d0da;
+  --acento: #c1442e;
+  --secundario: #d9a441;
+  --positivo: #5b7c68;
+  --neutro: #8c8c8c;
+  --tinta: #1f2933;
+  --texto: #445260;
+  --linea: #e2e6ea;
+  --fondo: #f5f7f8;
+  --tarjeta: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ---------------------------------------------------------------- Cabecera */
+
+header {
+  background: var(--tarjeta);
+  border-bottom: 1px solid var(--linea);
+  padding: 22px 32px 18px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--tinta);
+  letter-spacing: -0.2px;
+}
+
+header p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--neutro);
+}
+
+main {
+  padding: 24px 32px 60px;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+/* ---------------------------------------------------------------- Filtros */
+
+.panel {
+  background: var(--tarjeta);
+  border: 1px solid var(--linea);
+  border-radius: 6px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.rejilla-filtros {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 22px 28px;
+}
+
+.filtro label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--neutro);
+  margin-bottom: 8px;
+}
+
+.filtro input[type="date"],
+.filtro select {
+  width: 100%;
+  padding: 7px 9px;
+  border: 1px solid var(--linea);
+  border-radius: 4px;
+  background: var(--tarjeta);
+  color: var(--texto);
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.par-fechas {
+  display: flex;
+  gap: 8px;
+}
+
+.deslizador {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.deslizador input[type="range"] {
+  flex: 1;
+  accent-color: var(--base);
+}
+
+.valor {
+  min-width: 74px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--tinta);
+}
+
+.fichas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.ficha {
+  border: 1px solid var(--linea);
+  border-radius: 14px;
+  padding: 4px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  background: var(--tarjeta);
+  color: var(--neutro);
+  user-select: none;
+  transition: all 0.12s ease;
+}
+
+.ficha.activa {
+  background: var(--base);
+  border-color: var(--base);
+  color: #fff;
+}
+
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--linea);
+}
+
+button {
+  border: 1px solid var(--base);
+  background: var(--tarjeta);
+  color: var(--base);
+  border-radius: 4px;
+  padding: 7px 16px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--base);
+  color: #fff;
+}
+
+.conteo {
+  font-size: 14px;
+  color: var(--neutro);
+}
+
+/* ---------------------------------------------------------------- Tarjetas */
+
+.rejilla-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.tarjeta {
+  background: var(--tarjeta);
+  border: 1px solid var(--linea);
+  border-left: 3px solid var(--medio);
+  border-radius: 5px;
+  padding: 16px 18px;
+}
+
+.tarjeta.alerta {
+  border-left-color: var(--acento);
+}
+
+.tarjeta.correcta {
+  border-left-color: var(--positivo);
+}
+
+.tarjeta .titulo {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--neutro);
+}
+
+.tarjeta .cifra {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--tinta);
+  line-height: 1.2;
+  margin-top: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.tarjeta.alerta .cifra {
+  color: var(--acento);
+}
+
+.tarjeta .nota {
+  font-size: 12px;
+  color: var(--neutro);
+  margin-top: 2px;
+}
+
+/* ---------------------------------------------------------------- Graficos */
+
+.rejilla-graficos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  gap: 20px;
+}
+
+.marco {
+  background: var(--tarjeta);
+  border: 1px solid var(--linea);
+  border-radius: 6px;
+  padding: 16px 18px 10px;
+}
+
+.marco.ancho {
+  grid-column: 1 / -1;
+}
+
+.marco h2 {
+  margin: 0 0 2px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--tinta);
+}
+
+.marco .sub {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--neutro);
+}
+
+.grafico {
+  width: 100%;
+  height: 380px;
+}
+
+.grafico.alto {
+  height: 460px;
+}
+
+.vacio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--neutro);
+  font-size: 14px;
+}
+
+footer {
+  padding: 20px 32px 40px;
+  font-size: 12px;
+  color: var(--neutro);
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  header, main { padding-left: 16px; padding-right: 16px; }
+  .rejilla-graficos { grid-template-columns: 1fr; }
+  .grafico { height: 320px; }
+}
