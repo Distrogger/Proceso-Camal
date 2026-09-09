@@ -1,4 +1,4 @@
-// Este archivo carga datos pegados en texto plano (CSV, TSV o delimitado)
+// Este archivo carga datos en texto plano (CSV/TSV) directamente en el código
 // y crea window.DATOS dinámicamente para su uso en la página web.
 
 (function(){
@@ -23,6 +23,22 @@
     const pad = n=>String(n).padStart(2,'0');
     return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+" "+pad(d.getHours())+":"+pad(d.getMinutes());
   }
+
+  // ═══════════════════════════════════════════════════════════════
+  // 👇 AQUI PEGAS TUS DATOS - Copia todo el texto de tu tabla/excel
+  // ═══════════════════════════════════════════════════════════════
+  const datosTexto = `Fecha	Línea	Personal	Cerdos	Buenos	Horas	Velocidad	Defectos	Motivos
+2026-09-01	Primaria	20	850	95%	8.5	42.3	5%	Parada mecánica
+2026-09-02	Primaria	22	920	96%	8.0	46.1	4%	Mantenimiento
+2026-09-03	Primaria	19	780	93%	8.3	38.5	7%	Error operario
+2026-09-04	Primaria	21	890	94%	8.2	43.2	6%	Parada hidráulica
+2026-09-05	Primaria	20	840	95%	8.4	41.8	5%	Limpieza
+2026-09-06	Primaria	23	950	97%	7.9	47.5	3%	Buena marcha
+2026-09-07	Primaria	20	855	94%	8.6	41.2	6%	Cuchillas
+2026-09-08	Primaria	21	900	95%	8.1	44.3	5%	Material defectuoso`;
+  // ═══════════════════════════════════════════════════════════════
+  // ☝️  FIN DE LA SECCION DE DATOS
+  // ═══════════════════════════════════════════════════════════════
 
   // Función para parsear texto delimitado (CSV/TSV)
   function parseDelimitedText(text, delimiter = '\t'){
@@ -68,8 +84,8 @@
     return null;
   }
 
-  // Exponer función para pegar datos
-  window.cargarDatosTexto = function(textData, delimiter = '\t'){
+  // Función para procesar datos
+  function procesarDatos(textData, delimiter = '\t'){
     try{
       const rows = parseDelimitedText(textData, delimiter);
       
@@ -159,17 +175,23 @@
       window.dispatchEvent(new Event('DATOS_LOADED'));
       return { success: false, error: String(err) };
     }
+  }
+
+  // Cargar datos automáticamente al cargar la página
+  procesarDatos(datosTexto, '\t');
+
+  // Exponer funciones para modificar datos si es necesario
+  window.cargarDatosTexto = function(textData, delimiter = '\t'){
+    return procesarDatos(textData, delimiter);
   };
 
-  // También exponer función para detectar delimitador automáticamente
   window.cargarDatosAutodetect = function(textData){
-    // Probar tabulación, coma, y punto y coma
     const delimiters = ['\t', ',', ';', '|'];
     for(const delim of delimiters){
       try{
         const result = parseDelimitedText(textData, delim);
         if(result.length > 0){
-          return window.cargarDatosTexto(textData, delim);
+          return procesarDatos(textData, delim);
         }
       }catch(e){
         continue;
